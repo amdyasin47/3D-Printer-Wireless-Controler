@@ -1,0 +1,18 @@
+pages:
+  stage: deploy
+  before_script:
+  - export timestamp=$(date '+%s')
+  - export interface_version=$(date '+1.2%m%d')
+  script:
+  - mkdir .public
+  - cp -r * .public
+  - mv .public/frontend public
+  - rm -r .public
+  - sed -i 's/TIMESTAMP/'$timestamp'/g' public/index.html
+  - sed -i 's/TIMESTAMP/'$timestamp'/g' public/setup.html
+  - sed -i 's/INTERFACE_VERSION/'$interface_version'/g' public/index.html
+  artifacts:
+    paths:
+    - public
+  only:
+  - main
